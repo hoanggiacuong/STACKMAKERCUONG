@@ -9,12 +9,14 @@ public class UI_Manager : MonoBehaviour
    [SerializeField] private Button BtnPlay;
     [SerializeField] private Button BtnNextLv;
     [SerializeField] private Button BtnRetry;
+  public Text satus_text;
     // Start is called before the first frame update
     void Start()
     {
         UI_Istance = this;
         
     }
+
 
     public void HidebtnPlay()
     {

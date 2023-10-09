@@ -17,11 +17,11 @@ public class Game_Manager : MonoBehaviour
     public bool isPlayer=false;
  
     public List<GameObject> mapPrefabList;
-    public  string mapFilePath1 = "E:/dev game/BTTH2/Assets/_Game/Text_Map/map1.txt";
-    public  string mapFilePath2 = "E:/dev game/BTTH2/Assets/_Game/Text_Map/map2.txt";
-    public string mapFilePath3 = "E:/dev game/BTTH2/Assets/_Game/Text_Map/map3.txt";
-    public string mapFilePath4 = "E:/dev game/BTTH2/Assets/_Game/Text_Map/map4.txt";
-    public string mapFilePath5 = "E:/dev game/BTTH2/Assets/_Game/Text_Map/map5.txt";// Đường dẫn đến tệp văn bản
+    private  string mapFilePath1 =  "map1";
+    private string mapFilePath2 =  "map2";
+    private string mapFilePath3 = "map3";
+    private string mapFilePath4 =  "map4";
+    private string mapFilePath5 =  "map5";// Đường dẫn đến tệp văn bản
     public  List<GameObject> map;
 
     public GameObject Map;
@@ -59,23 +59,34 @@ public class Game_Manager : MonoBehaviour
         //LoadMap(mapFilePath1,map[0]);
     }
 
-    public void LoadMap(string path, GameObject mapName)
+    public void LoadMap(string pathName, GameObject mapName)
     {
         // mapPrefabEnum my_mapPrefabEnum=mapPrefabEnum.Brick;
-      
-         Map= Instantiate(mapName, new Vector3(0, 0, 0), Quaternion.identity);
-        
-       
-        if (!File.Exists(path))
-        {
-            Debug.LogError("Không tìm thấy tệp văn bản.");
-            return;
-        }
+        Map = Instantiate(mapName, new Vector3(0, 0, 0), Quaternion.identity);
 
-         lines = File.ReadAllLines(path);
+        TextAsset txtAsset = Resources.Load<TextAsset>(pathName);
+        lines = txtAsset.text.Split('\n');
 
 
-       // int width = lines[0].Length;
+
+
+
+        // // doc text tư pathfile
+        // string filePath = Path.Combine( Application.streamingAssetsPath ,pathName);
+        // //string filePath1 = Application.persistentDataPath + pathName;
+        // UI_Manager.UI_Istance.satus_text.text = filePath;
+        //Debug.Log(filePath);
+        // if (!File.Exists(filePath))
+        // {
+        //     Debug.LogError("Không tìm thấy tệp văn bản.");
+        //     UI_Manager.UI_Istance.satus_text.text = filePath+"khong co file";
+        //     return;
+        // }
+        // //  if (!Directory.Exists(filePath)) { Directory.CreateDirectory(filePath); }
+        // lines = File.ReadAllLines(filePath);
+
+
+        // int width = lines[0].Length;
         int height = lines.Length;
 
         //mang 2 chieu luu map\
@@ -90,7 +101,8 @@ public class Game_Manager : MonoBehaviour
         {
             for (int x =0; x <lines[y].Length ; x++)
             {
-                int tileSymbol =Int32.Parse(lines[y][x].ToString());
+                int tileSymbol;
+               Int32.TryParse(lines[y][x].ToString(),out tileSymbol);
                 Vector3 position = InitPos(x, y); // Vị trí trong môi trường 3D
 
                 if (tileSymbol ==0)
